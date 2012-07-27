@@ -3,7 +3,7 @@
      Plugin Name: SmugMug Responsive Slider
      Plugin URI: http://gyura.com/smugmug-responsive-slider/
      Description: Using <a href="http://www.woothemes.com/flexslider/" title="flexslider">FlexSlider</a> and <a href="http://phpsmug.com/" title="phpsmug">phpSmug</a> this plugin allows you to drop in an image gallery from your SmugMug account to any post or page, either as a responsive slider or thumbnails.  It includes a shortcode generator and options panel.
-     Version: 1.01
+     Version: 1.02
      Author: Michael Gyura
      Author URI: http://gyura.com
     */
@@ -23,8 +23,6 @@
         along with this program; if not, write to the Free Software
         Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     */
-
-
     /*-----------------------------------------------------------------------------------*/
     /* Bring in required files and scripts */
     /*-----------------------------------------------------------------------------------*/
