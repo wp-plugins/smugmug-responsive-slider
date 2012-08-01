@@ -1,8 +1,8 @@
-<?php 
-/** 
- * phpSmug - phpSmug is a PHP wrapper class for the SmugMug API. The intention 
- *		     of this class is to allow PHP application developers to quickly 
- *			 and easily interact with the SmugMug API in their applications, 
+<?php
+/**
+ * phpSmug - phpSmug is a PHP wrapper class for the SmugMug API. The intention
+ *		     of this class is to allow PHP application developers to quickly
+ *			 and easily interact with the SmugMug API in their applications,
  *			 without having to worry about the finer details of the API.
  *
  * @author Colin Seymour <lildood@gmail.com>
@@ -10,7 +10,7 @@
  * @package phpSmug
  * @license GPL 3 {@link http://www.gnu.org/copyleft/gpl.html}
  * @copyright Copyright (c) 2008 Colin Seymour
- * 
+ *
  * This file is part of phpSmug.
  *
  * phpSmug is free software: you can redistribute it and/or modify
@@ -30,14 +30,14 @@
  * For more information about the class and upcoming tools and toys using it,
  * visit {@link http://phpsmug.com/}.
  *
- * For installation and usage instructions, open the README.txt file 
+ * For installation and usage instructions, open the README.txt file
  * packaged with this class. If you don't have a copy, you can refer to the
  * documentation at:
- * 
+ *
  *          {@link http://phpsmug.com/docs/}
- * 
+ *
  * phpSmug is inspired by phpFlickr 2.1.0 ({@link http://www.phpflickr.com}) by Dan Coulter
- * 
+ *
  * Please help support the maintenance and development of phpSmug by making
  * a donation ({@link http://phpsmug.com/donate/}).
  **/
@@ -67,7 +67,7 @@ class phpSmug {
 	private $secure = false;
 	private $req;
 	private $adapter = 'curl';
-	
+
 	/**
      * When your database cache table hits this many rows, a cleanup
      * will occur to get rid of all of the old rows and cleanup the
@@ -77,15 +77,15 @@ class phpSmug {
      * You should try to set it high enough that the cleanup only
      * happens every once in a while, so this will depend on the growth
      * of your table.
-     * 
+     *
      * @var integer
      **/
     var $max_cache_rows = 1000;
-	
+
 	/**
 	 * Constructor to set up a phpSmug instance.
-	 * 
-	 * The Application Name (AppName) is not obligatory, but it helps 
+	 *
+	 * The Application Name (AppName) is not obligatory, but it helps
 	 * SmugMug diagnose any problems users of your application may encounter.
 	 * If you're going to use this, please use a string and include your
 	 * version number and URL as follows.
@@ -93,8 +93,8 @@ class phpSmug {
 	 *
 	 * The API Key must be set before any calls can be made.  You can
      * get your own at {@link http://www.smugmug.com/hack/apikeys}
-     * 
-     * By default phpSmug will use the latest stable API endpoint, but 
+     *
+     * By default phpSmug will use the latest stable API endpoint, but
      * you can over-ride this when instantiating the instance.
 	 *
 	 * @return	void
@@ -127,10 +127,10 @@ class phpSmug {
 
 		// All calls to the API are done via POST using my own constructed pyd_httpRequest class
 		$this->req = new pyd_httpRequest();
-		$this->req->setConfig( array( 'adapter' => $this->adapter, 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 60 ) );
+		$this->req->pyd_setConfig( array( 'adapter' => $this->adapter, 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 60 ) );
 		$this->req->setHeader( array( 'User-Agent' => "{$this->AppName} using phpSmug/{$this->version}", 'Content-Type' => 'application/x-www-form-urlencoded' ) );
     }
-	
+
 	/**
 	 * General debug function used for testing and development of phpSmug.
 	 *
@@ -153,7 +153,7 @@ class phpSmug {
 		if ( $echo ) { ob_end_flush(); } else { $out = ob_get_clean(); }
 		return $out;
 	}
-	
+
 	/**
 	 * Function enables caching.
 	 *
@@ -275,7 +275,7 @@ class phpSmug {
     }
 
 	/**
-	 * Caches the unparsed serialized PHP of a request. 
+	 * Caches the unparsed serialized PHP of a request.
 	 *
 	 * @access	private
 	 * @param	array		$request Request to the SmugMug created by one of the
@@ -375,9 +375,9 @@ class phpSmug {
 				throw new PhpSmugException( 'Not authenticated. No Session ID or OAuth Token.  Please login or provide an OAuth token.' );
 			}
 		}
-		
+
 		$this->req->setURL( $endpoint );
-		
+
         if ( substr( $command,0,8 ) != 'smugmug.' ) {
             $command = 'smugmug.' . $command;
         }
@@ -423,7 +423,7 @@ class phpSmug {
 		}
 		return $this->response;
     }
-	
+
 	/**
 	 * Set a proxy for all phpSmug calls.
 	 *
@@ -446,7 +446,7 @@ class phpSmug {
 		$this->proxy['username'] = ( isset( $args['username'] ) ) ? $args['username'] : '';
 		$this->proxy['password'] = ( isset( $args['password'] ) ) ? $args['password'] : '';
 		$this->proxy['auth_scheme'] = ( isset( $args['auth_scheme'] ) ) ? $args['auth_scheme'] : 'basic';
-		$this->req->setConfig( array( 'proxy_host' => $this->proxy['server'],
+		$this->req->pyd_setConfig( array( 'proxy_host' => $this->proxy['server'],
 									  'proxy_port' => $this->proxy['port'],
 									  'proxy_user' => $this->proxy['username'],
 									  'proxy_password' => $this->proxy['password'],
@@ -456,7 +456,7 @@ class phpSmug {
 	/**
 	 * Set Token and Token Secret for use by other methods in phpSmug.
 	 *
-	 * Use this method to pull in the token and token secret obtained during 
+	 * Use this method to pull in the token and token secret obtained during
 	 * the OAuth authorisation process.
 	 *
 	 * If OAuth is being used, this method MUST be called so phpSmug knows about
@@ -464,7 +464,7 @@ class phpSmug {
 	 *
 	 * NOTE: It's up to the application developer using phpSmug to store the Access
 	 * token and token secret in a location convenient for their application.
-	 * phpSmug can not do this as all storage and caching done by phpSmug is 
+	 * phpSmug can not do this as all storage and caching done by phpSmug is
 	 * of a temporary nature.
 	 *
 	 * @access	public
@@ -480,8 +480,8 @@ class phpSmug {
 	}
 
 	/**
-	 * Set the adapter.  
-	 * 
+	 * Set the adapter.
+	 *
 	 * @access	public
 	 * @param	string		$adapter Allowed options are 'curl' or 'socket'. Default is 'curl'
 	 * @return	void
@@ -494,10 +494,10 @@ class phpSmug {
 			$this->req->setAdapter( $adapter );
 		}
 	}
-	
+
 	/**
 	 * Get the adapter.  This is primarily for unit testing
-	 * 
+	 *
 	 * @access	public
 	 * @return	string		Either 'socket' or 'curl'.
 	 */
@@ -505,31 +505,31 @@ class phpSmug {
 	{
 		return $this->req->getAdapter();
 	}
-	
+
 	/**
-	 * Force the use of the secure/HTTPS API endpoint for ALL API calls, not just 
+	 * Force the use of the secure/HTTPS API endpoint for ALL API calls, not just
 	 * those entailing authentication.
-	 * 
+	 *
 	 * This is only implemented if authenticating using OAuth.
-	 * 
+	 *
 	 * @access	public
 	 * @return	void
 	 */
-	
+
 	public function setSecureOnly()
 	{
 		if ( isset( $this->OAuthSecret ) ) {
 			$this->secure = true;
 		}
 	}
-	 
+
 	/**
 	 * Single login function for all non-OAuth logins.
-	 * 
-	 * I've created this function to try and get things consistent across the 
-	 * entire phpSmug functionality.  
-	 * 
-	 * This method will determine the login type from the arguments provided. If 
+	 *
+	 * I've created this function to try and get things consistent across the
+	 * entire phpSmug functionality.
+	 *
+	 * This method will determine the login type from the arguments provided. If
 	 * no arguments are provide, anonymous login will be used.
 	 *
 	 * @access	public
@@ -554,7 +554,7 @@ class phpSmug {
 				$this->request( 'smugmug.login.withHash', array( 'UserID' => $args['UserID'], 'PasswordHash' => $args['PasswordHash'] ) );
 			}
 			$this->loginType = 'authd';
-			
+
 		} else {
 			// Anonymous login
 			$this->loginType = 'anon';
@@ -590,11 +590,11 @@ class phpSmug {
 		$args = phpSmug::processArgs( func_get_args() );
 		return $this->login( $args );
 	}
-	
+
 	/**
 	 * I've chosen to go with the HTTP PUT method as it is quicker, simpler
 	 * and more reliable than using the API or POST methods.
-	 * 
+	 *
 	 * @access	public
 	 * @param	integer		$AlbumID The AlbumID the image is to be uploaded to
 	 * @param	string		$File The path to the local file that is being uploaded
@@ -613,7 +613,7 @@ class phpSmug {
 		if ( !array_key_exists( 'File', $args ) ) {
 			throw new PhpSmugException( 'No upload file specified.' );
 		}
-		
+
 		// Set FileName, if one isn't provided in the method call
 		if ( !array_key_exists( 'FileName', $args ) ) {
 			$args['FileName'] = basename( $args['File'] );
@@ -626,7 +626,7 @@ class phpSmug {
 		if ( $this->OAuthSecret ) {
 			$sig = $this->generate_signature( 'Upload', array( 'FileName' => $args['FileName'] ) );
 		}
-		
+
 		if ( is_file( $args['File'] ) ) {
 			$fp = fopen( $args['File'], 'r' );
 			$data = fread( $fp, filesize( $args['File'] ) );
@@ -637,13 +637,13 @@ class phpSmug {
 
 		// Create a new object as we still need the other request object
 		$upload_req = new pyd_httpRequest();
-        $upload_req->setMethod( 'PUT' );
-		$upload_req->setConfig( array( 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 60 ) );
+        $upload_req->pyd_setMethod( 'PUT' );
+		$upload_req->pyd_setConfig( array( 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 60 ) );
 		$upload_req->setAdapter( $this->adapter );
-		
+
 		// Set the proxy if one has been set earlier
 		if ( isset( $this->proxy ) && is_array( $this->proxy ) ) {
-			$upload_req->setConfig(array('proxy_host' => $this->proxy['server'],
+			$upload_req->pyd_setConfig(array('proxy_host' => $this->proxy['server'],
 							             'proxy_port' => $this->proxy['port'],
 									     'proxy_user' => $this->proxy['user'],
 									     'proxy_password' => $this->proxy['password']));
@@ -665,12 +665,12 @@ class phpSmug {
 				oauth_version="1.0",
 				oauth_nonce="'.$this->oauth_nonce.'"' );
 		}
-			
+
 		$upload_req->setHeader( array( 'X-Smug-Version' => $this->APIVer,
 									   'X-Smug-ResponseType' => 'PHP',
 									   'X-Smug-AlbumID' => $args['AlbumID'],
 									   'X-Smug-Filename'=> basename($args['FileName'] ) ) ); // This is actually optional, but we may as well use what we're given
-		
+
 		/* Optional Headers */
 		( isset( $args['ImageID'] ) ) ? $upload_req->setHeader( 'X-Smug-ImageID', $args['ImageID'] ) : false;
 		( isset( $args['Caption'] ) ) ? $upload_req->setHeader( 'X-Smug-Caption', $args['Caption'] ) : false;
@@ -685,16 +685,16 @@ class phpSmug {
 		$upload_req->setURL( 'http://upload.smugmug.com/'.$args['FileName'] );
 		$upload_req->setBody( $data );
 
-        //Send Requests 
+        //Send Requests
 		$upload_req->execute();
-		
+
 		$this->response = $upload_req->getBody();
-		
+
 		// For some reason the return string is formatted with \n and extra space chars.  Remove these.
 		$replace = array( '\n', '\t', '  ' );
 		$this->response = str_replace( $replace, '', $this->response );
 		$this->parsed_response = unserialize( trim( $this->response ) );
-		
+
 		if ( $this->parsed_response['stat'] == 'fail' ) {
 			$this->error_code = $this->parsed_response['code'];
             $this->error_msg = $this->parsed_response['message'];
@@ -706,11 +706,11 @@ class phpSmug {
 		}
 		return $this->parsed_response ? $this->parsed_response['Image'] : FALSE;
 	}
-	
+
 	/**
 	 * Dynamic method handler.  This function handles all SmugMug method calls
 	 * not explicitly implemented by phpSmug.
-	 * 
+	 *
  	 * @access	public
 	 * @uses	request
 	 * @param	string		$method The SmugMug method you want to call, but
@@ -723,7 +723,7 @@ class phpSmug {
 	{
 		$method = strtr( $method, '_', '.' );
 		$args = phpSmug::processArgs( $arguments );
-	
+
 		if ( $this->OAuthSecret ) {
 			$sig = $this->generate_signature( $method, $args );
 			$oauth_params = array (
@@ -734,7 +734,7 @@ class phpSmug {
 				'oauth_signature_method'    => $this->oauth_signature_method,
 				'oauth_signature'           => $sig
 				);
-			
+
 			// Only getRequestToken won't have a token when using OAuth
 			if ( $method != 'auth.getRequestToken' ) {
 				$oauth_params['oauth_token'] = $this->oauth_token;
@@ -761,7 +761,7 @@ class phpSmug {
 
 		return ( is_string( $output ) && strstr( $output, 'smugmug.' ) ) ? NULL : $output;
 	}
-	
+
 	 /**
 	  * Return the authorisation URL.
 	  *
@@ -777,7 +777,7 @@ class phpSmug {
 		 $access = ( array_key_exists( 'Access', $args ) ) ? $args['Access'] : 'Read';
  		 return "https://secure.smugmug.com/services/oauth/authorize.mg?Access=$access&Permissions=$perms&oauth_token={$this->oauth_token}";
 	 }
-	 
+
 
 	 /**
 	  * Static function to encode a string according to RFC3986.
@@ -821,7 +821,7 @@ class phpSmug {
 		} else {
 			$this->oauth_signature_method = 'HMAC-SHA1';
 			$encKey = phpSmug::urlencodeRFC3986( $this->OAuthSecret ) . '&' . phpSmug::urlencodeRFC3986( $this->oauth_token_secret );
-			
+
 			if ( strpos( $apicall, 'Token' ) || $this->secure && $apicall != 'Upload' ) {
 				$endpoint = "https://secure.smugmug.com/services/api/php/{$this->APIVer}/";
 			} else if ( $apicall == 'Upload' ) {
@@ -831,7 +831,7 @@ class phpSmug {
 			} else {
 				$endpoint = "http://api.smugmug.com/services/api/php/{$this->APIVer}/";
 			}
-			
+
 			$method = ( $apicall == 'Upload' ) ? 'PUT' : 'POST';
 			$params = array (
 				'oauth_version'             => '1.0',
@@ -863,7 +863,7 @@ class phpSmug {
 			return $sig;
 		}
 	 }
-	  
+
 	 /**
 	  * Process arguments passed to method
 	  *
@@ -885,7 +885,7 @@ class phpSmug {
 		}
 		return $args;
 	  }
-	   
+
 }
 
 
@@ -901,7 +901,7 @@ class phpSmug {
  * The original source is distributed under the Apache License Version 2.0
  */
 
-class HttpRequestException extends Exception {}
+class pyd_HttpRequestException extends Exception {}
 
 interface PhpSmugRequestProcessor
 {
@@ -930,7 +930,7 @@ class pyd_httpRequest
 	/**
     * Adapter Configuration parameters
     * @var  array
-    * @see  setConfig()
+    * @see  pyd_setConfig()
     */
     protected $config = array(
 		'adapter'			=> 'curl',
@@ -986,11 +986,11 @@ class pyd_httpRequest
 	 * @param mixed			$value
 	 * @return pyd_httpRequest
 	 */
-	public function setConfig( $config, $value = null )
+	public function pyd_setConfig( $config, $value = null )
     {
         if ( is_array( $config ) ) {
             foreach ( $config as $name => $value ) {
-                $this->setConfig( $name, $value );
+                $this->pyd_setConfig( $name, $value );
             }
 
         } else {
@@ -1010,7 +1010,7 @@ class pyd_httpRequest
      * @param string HTTP method to use (GET, POST or PUT)
      * @return void
      */
-    public function setMethod( $method )
+    public function pyd_setMethod( $method )
 	{
 		$method = strtoupper( $method );
         if ( $method == 'GET' || $method == 'POST' || $method == 'PUT' ) {
@@ -1118,7 +1118,7 @@ class pyd_httpRequest
 	{
 		return $this->params;
 	}
-	
+
 	/**
 	 * Get the current configuration. This is more for unit testing purposes
 	 */
@@ -1274,7 +1274,7 @@ class pyd_httpRequest
 
 }
 
- 
+
 
 class PhpSmugCurlRequestProcessor implements PhpSmugRequestProcessor
 {
@@ -1332,7 +1332,7 @@ class PhpSmugCurlRequestProcessor implements PhpSmugRequestProcessor
 		// set proxy, if needed
         if ( $config['proxy_host'] ) {
             if ( ! $config['proxy_port'] ) {
-                throw new HttpRequestException( 'Proxy port not provided' );
+                throw new pyd_HttpRequestException( 'Proxy port not provided' );
             }
             $options[CURLOPT_PROXY] = $config['proxy_host'] . ':' . $config['proxy_port'];
             if ( $config['proxy_user'] ) {
@@ -1351,11 +1351,11 @@ class PhpSmugCurlRequestProcessor implements PhpSmugRequestProcessor
 		$body = curl_exec( $ch );
 
 		if ( curl_errno( $ch ) !== 0 ) {
-			throw new HttpRequestException( sprintf( '%s: CURL Error %d: %s', __CLASS__, curl_errno( $ch ), curl_error( $ch ) ), curl_errno( $ch ) );
+			throw new pyd_HttpRequestException( sprintf( '%s: CURL Error %d: %s', __CLASS__, curl_errno( $ch ), curl_error( $ch ) ), curl_errno( $ch ) );
 		}
 
 		if ( substr( curl_getinfo( $ch, CURLINFO_HTTP_CODE ), 0, 1 ) != 2 ) {
-			throw new HttpRequestException( sprintf( 'Bad return code (%1$d) for: %2$s', curl_getinfo( $ch, CURLINFO_HTTP_CODE ), $url ), curl_errno( $ch ) );
+			throw new pyd_HttpRequestException( sprintf( 'Bad return code (%1$d) for: %2$s', curl_getinfo( $ch, CURLINFO_HTTP_CODE ), $url ), curl_errno( $ch ) );
 		}
 
 		curl_close( $ch );
@@ -1393,7 +1393,7 @@ class PhpSmugCurlRequestProcessor implements PhpSmugRequestProcessor
 	}
 }
 
- 
+
 
 class PhpSmugSocketRequestProcessor implements PhpSmugRequestProcessor
 {
@@ -1402,17 +1402,17 @@ class PhpSmugSocketRequestProcessor implements PhpSmugRequestProcessor
 	private $executed = FALSE;
 	private $redir_count = 0;
 	private $can_followlocation = true;
-	
-	public function __construct ( ) 
-	{		
+
+	public function __construct ( )
+	{
 		// see if we can follow Location: headers
 		if ( ini_get( 'safe_mode' ) || ini_get( 'open_basedir' ) ) {
 			$this->can_followlocation = false;
-		}	
+		}
 	}
-		
-	public function execute ( $method, $url, $headers, $body, $config ) 
-	{	
+
+	public function execute ( $method, $url, $headers, $body, $config )
+	{
 		$merged_headers = array();
 		foreach ( $headers as $k => $v ) {
 			$merged_headers[] = $k . ': '. $v;
