@@ -3,7 +3,7 @@
      Plugin Name: SmugMug Responsive Slider
      Plugin URI: http://gyura.com/smugmug-responsive-slider/
      Description: Using FlexSlider and phpSmug this plugin allows you to drop in an image gallery from your SmugMug account to any post or page, either as a responsive slider or thumbnails.  It includes a shortcode generator and options panel.
-     Version: 1.04
+     Version: 1.05
      Author: Michael Gyura
      Author URI: http://gyura.com
     */
@@ -104,7 +104,7 @@
     $pydsmug_progress = get_option( 'pyd_smug_api_progress' );
     $pydsmug_cats     = get_option( 'pyd_smug_cats' );
     $pydsmug_slider   = get_option( 'pyd_smug_slider' );
-    $pydsmug_pydapi   = new phpSmug( "APIKey=9D8IdL53PxaZoZeCzDGLVMQIaYF9Sg6s", "AppName=Poka Yoke Design", "OAuthSecret=99460e933382584b6e6cebfb392f749d" );
+    $pydsmug_pydapi   = new pyd_phpSmug( "APIKey=9D8IdL53PxaZoZeCzDGLVMQIaYF9Sg6s", "AppName=Poka Yoke Design", "OAuthSecret=99460e933382584b6e6cebfb392f749d" );
 
 
     /*-----------------------------------------------------------------------------------*/
