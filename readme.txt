@@ -4,7 +4,7 @@ Donate link: http://gyura.com
 Tags: SmugMug, images, responsive slider, pictures, smug mug
 Requires at least: 3.2
 Tested up to: 3.4
-Stable tag: 1.05
+Stable tag: 1.06
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,9 @@ No.  There are many great plugins that work with other photo services.  Our aim 
 
 == Changelog ==
 
+= 1.06 =
+* Fix CSS issue with overflow and padding
+
 = 1.05 =
 * Fixed conflicts with other SmugMug plugins using phpsmug
 
@@ -65,6 +68,9 @@ No.  There are many great plugins that work with other photo services.  Our aim 
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.06 =
+* Minor CSS issue for some users with images bleeding over the container.
 
 = 1.05 =
 Fixed conflicts with other SmugMug plugins using phpsmug
